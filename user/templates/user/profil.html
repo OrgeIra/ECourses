@@ -1,0 +1,52 @@
+{% extends "base/base.html" %}
+
+{% block profile %}
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <div class="row">
+            <!-- Profile Image -->
+            <div class="col-md-4 text-center">
+                {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" class="img-fluid rounded-circle" alt="Profile Image" width="150">
+                {% else %}
+                    <img src="https://via.placeholder.com/150" class="img-fluid rounded-circle" alt="Default Profile">
+                {% endif %}
+            </div>
+
+            <!-- User Details -->
+            <div class="col-md-8">
+                <h2>{{ user.username }}</h2>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Role:</strong> {{ user.get_role_display }}</p>
+                {% if user.bio %}
+                    <p><strong>Bio:</strong> {{ user.bio }}</p>
+                {% endif %}
+                
+                <!-- Кнопка для показа формы -->
+                <button class="btn btn-primary" id="editProfileBtn">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма редактирования профиля (изначально скрыта) -->
+    <div class="card mt-4 p-4" id="profileForm" style="display: none;">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript для показа/скрытия формы -->
+<script>
+    document.getElementById("editProfileBtn").addEventListener("click", function () {
+        let form = document.getElementById("profileForm");
+        if (form.style.display === "none") {
+            form.style.display = "block";
+        } else {
+            form.style.display = "none";
+        }
+    });
+</script>
+{% endblock %}

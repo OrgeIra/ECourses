@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'user',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -41,6 +42,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    
+
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -48,7 +52,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -56,6 +60,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -116,8 +122,8 @@ USE_TZ = True
 BASE_DIR = Path(__file__).resolve().parent.parent  
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [BASE_DIR / 'static']  
 STATIC_ROOT = BASE_DIR / 'staticfiles' 
+# STATICFILES_DIRS = [BASE_DIR / 'static']  
 
 
 MEDIA_URL = '/media/'
@@ -129,3 +135,39 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 AUTH_USER_MODEL = "user.User"
+
+
+AUTHENTICATION_BACKENDS = [
+    "user.backends.EmailOrUsernameBackend", 
+    "django.contrib.auth.backends.ModelBackend",  
+    'social_core.backends.google.GoogleOAuth2',
+    
+]
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",  # Если тестируешь локально
+    "http://localhost:8000",
+]
+
+# Отключаем CSRF для social-auth
+CSRF_COOKIE_NAME = "csrftoken"
+SESSION_COOKIE_SAMESITE = "Lax"  # Важно для работы social-auth
+CSRF_USE_SESSIONS = True  # Использовать сессии для CSRF, а не только токены
+
+
+
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['openid', 'email', 'profile']
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['email', 'first_name', 'last_name']

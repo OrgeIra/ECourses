@@ -40,7 +40,7 @@
                     <i class="fa fa-2x fa-map-marker-alt text-primary mr-3"></i>
                     <div class="text-left">
                         <h6 class="font-weight-semi-bold mb-1">Our Office</h6>
-                        <small>123 Street, New York, USA</small>
+                        <small>Massiv Xadra 1, Tashkent, Uzbekistan </small>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     <i class="fa fa-2x fa-envelope text-primary mr-3"></i>
                     <div class="text-left">
                         <h6 class="font-weight-semi-bold mb-1">Email Us</h6>
-                        <small>info@example.com</small>
+                        <small>dodomatovabdusami@gmail.com</small>
                     </div>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <i class="fa fa-2x fa-phone text-primary mr-3"></i>
                     <div class="text-left">
                         <h6 class="font-weight-semi-bold mb-1">Call Us</h6>
-                        <small>+012 345 6789</small>
+                        <small>+998934096343</small>
                     </div>
                 </div>
             </div>
@@ -115,7 +115,8 @@
                             </div>
                             <a href="{% url "home:contact" %}" class="nav-item nav-link">Contact</a>
                         </div>
-                        <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" href="">Join Now</a>
+                        <a class="btn btn-outline-primary py-2 px-4 ml-auto d-none d-lg-block" href="{% url "user:profile" %}">Profile</a>
+                        <a class="btn btn-primary py-2 px-4 ml-auto d-none d-lg-block" href="{% url "user:register" %}">Join Now</a>
                     </div>
                 </nav>
             </div>
@@ -129,6 +130,8 @@
     {% block about %}{% endblock about %}
     {% block teachers %}{% endblock teachers %}
     {% block contact %}{% endblock contact %}
+    {% block course_detil %}{% endblock course_detil %}
+    {% block profile %}{% endblock profile %}
     
 
     <!-- Footer Start -->

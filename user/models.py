@@ -43,9 +43,12 @@ class User(AbstractUser):
         blank=True
     )
 
-    username = models.CharField(max_length=150, unique=True)
+    username = models.CharField(max_length=150)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='student')
+
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -54,3 +57,5 @@ class User(AbstractUser):
 
     def __str__(self):
         return f"{self.username} ({self.role})"
+    
+    

@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Course, Teacher
+from django.contrib import messages
+from .forms import ContactForm
 
 def index(request):
     courses = Course.objects.all()
@@ -19,9 +21,6 @@ def teacher(request):
 def contact(request):
     return render(request, 'home/contact.html')
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from .forms import ContactForm
 
 def contact_view(request):
     if request.method == "POST":
@@ -34,5 +33,9 @@ def contact_view(request):
         form = ContactForm()
 
     return render(request, 'contact.html', {'form': form})
+
+def course_detail(request, pk):
+    course = get_object_or_404(Course, id=pk)
+    return render(request, 'home/course_detail.html', {'course': course})
 
 
