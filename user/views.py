@@ -1,10 +1,12 @@
 from django.views import View
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from user.forms import LoginForm, RegisterForm, UserProfileForm
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
+
 
 User = get_user_model()
 
@@ -78,3 +80,13 @@ def profile_view(request):
         form = UserProfileForm(instance=user)
 
     return render(request, "user/profil.html", {"form": form, "profile_user": user})
+
+
+@login_required
+def delete_user(request):
+    user = request.user
+    if request.method == "POST":
+        user.delete()
+        messages.success(request, "Your account has been deleted successfully.")
+        return redirect("home:home")
+    return render(request, "user/delete_confirm.html")

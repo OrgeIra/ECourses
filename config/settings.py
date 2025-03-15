@@ -171,3 +171,11 @@ CSRF_USE_SESSIONS = True  # Использовать сессии для CSRF, �
 SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['openid', 'email', 'profile']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['email', 'first_name', 'last_name']
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+ADMINS = [
+    ("Admin Name", "dodomatovabdusami@gmail.com"),
+]

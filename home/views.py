@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Course, Teacher
 from django.contrib import messages
 from .forms import ContactForm
+from django.db.models import Sum, Avg, Max, Min, Count
 
 def index(request):
     courses = Course.objects.all()
@@ -39,3 +40,21 @@ def course_detail(request, pk):
     return render(request, 'home/course_detail.html', {'course': course})
 
 
+
+
+
+def learn_more(request):
+    stats = Course.objects.aggregate(
+        total_students=Sum('students_count'),
+        avg_price=Avg('price'),
+        max_price=Max('price'),
+        min_price=Min('price')
+    )
+
+    teachers = Teacher.objects.annotate(course_count=Count('course'))
+
+    context = {
+        'stats': stats,
+        'teachers': teachers
+    }
+    return render(request, 'home/learn_more.html', context)

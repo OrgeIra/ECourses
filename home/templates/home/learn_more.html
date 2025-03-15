@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+    <h2>📊 Course Statistics</h2>
+    <ul>
+        <li>Total Students: {{ stats.total_students }}</li>
+        <li>Average Course Price: {{ stats.avg_price }}</li>
+        <li>Most Expensive Course: {{ stats.max_price }}</li>
+        <li>Cheapest Course: {{ stats.min_price }}</li>
+    </ul>
+
+    <h2>👨‍🏫 Teachers & Number of Courses</h2>
+    <ul>
+        {% for teacher in teachers %}
+            <li>{{ teacher.name }} - {{ teacher.course_count }} Courses</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
